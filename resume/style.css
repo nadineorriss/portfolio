@@ -1,22 +1,27 @@
 .skills-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Creates three columns */
-    gap: 20px; /* Spacing between grid items */
-    width: fit-content; /* Adjusts the width to fit the content */
-    margin-left: auto; /* Aligns the grid to the left */
-    margin-right: auto; /* Maintains centering for wider viewports if needed */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .skill-image {
-    width: 100%; /* Image fills the figure */
-    height: auto; /* Maintains aspect ratio */
+    width: 100%;
+    height: auto;
 }
 
 figure {
-    width: 200px; /* Width of each figure */
+    width: 200px;
 }
 
 figcaption {
-    text-align: center; /* Center-aligns the text within the caption */
+    text-align: center;
 }
-
+body {
+    background-color: #ffc0cb;
+}
+.girly-text {
+    font-family: 'Great Vibes', cursive;
+}
