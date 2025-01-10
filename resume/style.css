@@ -1,0 +1,22 @@
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Creates three columns */
+    gap: 20px; /* Spacing between grid items */
+    width: fit-content; /* Adjusts the width to fit the content */
+    margin-left: auto; /* Aligns the grid to the left */
+    margin-right: auto; /* Maintains centering for wider viewports if needed */
+}
+
+.skill-image {
+    width: 100%; /* Image fills the figure */
+    height: auto; /* Maintains aspect ratio */
+}
+
+figure {
+    width: 200px; /* Width of each figure */
+}
+
+figcaption {
+    text-align: center; /* Center-aligns the text within the caption */
+}
+
