@@ -11,9 +11,21 @@
             <li><a href="../index.html">Home</a></li>
             <li><a href="./index.html">Contact</a></li>
             <li><a href="../projects/index.html">Projects</a></li>
-            <li><a href="https://github.com/nadineorriss" target="_blank">GitHub</a></li>
+            <li><a href="https://github.com/nadineorriss" target="_blank">Profile</a></li>
         </ul>
     </nav>
     <h1>Contact</h1>
+    <form action="mailto:nadineorriss@ucsd.edu" method="POST" enctype="text/plain">
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required>
+        
+        <label for="subject">Subject:</label>
+        <input name="subject" id="subject" required>
+        
+        <label for="body">Message:</label>
+        <textarea name="body" id="body" required></textarea>
+        
+        <button>Submit</button>
+    </form>
 </body>
 </html>
