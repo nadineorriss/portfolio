@@ -4,8 +4,181 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NADINE_ORRISS: Resume</title>
-    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-accent: oklch(65% 50% 0);
+            --color-header: oklch(55% 50% 0);  /* Darker pink for headers */
+            --color-light: oklch(95% 5% 0);    /* Very light pink for backgrounds */
+        }
+
+        html {
+            accent-color: var(--color-accent);
+        }
+
+        body {
+            max-width: 100ch;
+            margin-inline: max(1em, (100% - 100ch) / 2);
+            padding: 0 1em;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        /* Header styles */
+        h1, h2, h3 {
+            color: var(--color-header);
+        }
+
+        header h1 a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        header h1 a:hover {
+            color: var(--color-accent);
+        }
+
+        /* Navigation styles */
+        nav ul, nav li {
+            display: contents;
+        }
+
+        nav {
+            display: flex;
+            margin-bottom: 1.5em;
+            border-bottom: 1px solid var(--color-accent);
+            width: 100%;
+        }
+
+        nav a {
+            flex: 1;
+            text-decoration: none;
+            color: inherit;
+            text-align: center;
+            padding: 0.5em;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            border-bottom: 0.4em solid var(--color-accent);
+            background-color: oklch(from var(--color-accent) 95% 5% h);
+        }
+
+        nav a.current {
+            border-bottom: 0.4em solid var(--color-accent);
+            padding-bottom: 0.1em;
+            font-weight: bold;
+        }
+
+        /* Section styles */
+        section {
+            margin: 2em 0;
+            padding: 1em;
+            background-color: var(--color-light);
+            border-radius: 8px;
+            border: 1px solid oklch(90% 10% 0);
+        }
+
+        /* Article styles */
+        article {
+            margin-bottom: 2em;
+            padding: 1em;
+            border-left: 3px solid var(--color-accent);
+            background-color: white;
+            border-radius: 0 8px 8px 0;
+            transition: transform 0.3s ease;
+        }
+
+        article:hover {
+            transform: translateX(5px);
+        }
+
+        /* Grid layout for skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+            gap: 2em;
+            padding: 1em 0;
+        }
+
+        .skill-image {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid var(--color-accent);
+            transition: transform 0.3s ease;
+        }
+
+        .skill-image:hover {
+            transform: scale(1.02);
+        }
+
+        figure {
+            margin: 0;
+        }
+
+        figcaption {
+            margin-top: 0.5em;
+            line-height: 1.4;
+            color: var(--color-header);
+            font-style: italic;
+            text-align: center;
+        }
+
+        /* Adjustments for article images */
+        article img {
+            max-width: 100%;
+            height: auto;
+            margin: 1em 0;
+            border-radius: 8px;
+            border: 2px solid var(--color-accent);
+        }
+
+        /* List styles */
+        ul {
+            padding-left: 1.5em;
+        }
+
+        li {
+            margin-bottom: 0.5em;
+        }
+
+        li::marker {
+            color: var(--color-accent);
+        }
+
+        time {
+            display: block;
+            margin: 0.5em 0;
+            color: var(--color-header);
+            font-style: italic;
+        }
+
+        /* Header section styles */
+        body > header {
+            text-align: center;
+            padding: 2em;
+            margin-bottom: 2em;
+            background-color: var(--color-light);
+            border-radius: 8px;
+        }
+
+        body > header p {
+            color: var(--color-header);
+        }
+
+        body > header a {
+            color: var(--color-header);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        body > header a:hover {
+            color: var(--color-accent);
+        }
+    </style>
 </head>
 <body>
     <nav>
