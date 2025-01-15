@@ -1,32 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NADINE_ORRISS: Contact</title>
-</head>
-<body>
-    <nav>
-        <ul>
-            <li><a href="../index.html">Home</a></li>
-            <li><a href="./index.html">Contact</a></li>
-            <li><a href="../projects/index.html">Projects</a></li>
-            <li><a href="https://github.com/nadineorriss" target="_blank">Profile</a></li>
-            <li><a href="../resume/index.html">Resume</a></li>
-        </ul>
-    </nav>
-    <h1>Contact</h1>
-    <form action="mailto:nadineorriss@ucsd.edu" method="POST" enctype="text/plain">
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" required>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>NADINE_ORRISS: Contact</title>
+        <link rel="stylesheet" href="../style.css">  <!-- Link to shared stylesheet -->
+        <style>
+            :root {
+                --color-accent: oklch(65% 50% 0);
+            }
+
+            html {
+                accent-color: var(--color-accent);
+            }
+
+            body {
+                max-width: 100ch;
+                margin-inline: max(1em, (100% - 100ch) / 2);
+                padding: 0 1em;
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            }
+
+            /* Navigation styles */
+            nav {
+                width: 100%;  /* Ensure nav takes full width */
+                display: flex;
+                margin-bottom: 1.5em;
+                border-bottom: 1px solid oklch(80% 3% 200);
+            }
+
+            nav ul {
+                width: 100%;  /* Make ul take full width */
+                margin: 0;    /* Remove default margins */
+                padding: 0;   /* Remove default padding */
+            }
+
+            nav ul, nav li {
+                display: contents;
+            }
+
+            nav a {
+                flex: 1;
+                text-decoration: none;
+                color: inherit;
+                text-align: center;
+                padding: 0.5em;
+                transition: all 0.3s ease;
+            }
+
+            nav a:hover {
+                border-bottom: 0.4em solid var(--color-accent);
+                background-color: oklch(from var(--color-accent) 95% 5% h);
+            }
+
+            nav a.current {
+                border-bottom: 0.4em solid var(--color-accent);
+                padding-bottom: 0.1em;
+                font-weight: bold;
+            }
+
+            /* Form styles */
+            form {
+                max-width: 60ch;
+                margin: 2em auto;
+                display: flex;
+                flex-direction: column;
+                gap: 1em;
+            }
+
+            label {
+                font-weight: bold;
+                margin-bottom: 0.25em;
+            }
+
+            input, textarea {
+                padding: 0.5em;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font: inherit;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            textarea {
+                min-height: 150px;
+                resize: vertical;
+            }
+
+            button {
+                background-color: var(--color-accent);
+                color: white;
+                border: none;
+                padding: 0.75em 1.5em;
+                border-radius: 4px;
+                font: inherit;
+                font-weight: bold;
+                cursor: pointer;
+                transition: opacity 0.3s ease;
+                margin-top: 1em;
+                width: 100%;
+            }
+
+            button:hover {
+                opacity: 0.9;
+            }
+        </style>
+    </head>
+    <body>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="./index.html" class="current">Contact</a></li>
+                <li><a href="../projects/index.html">Projects</a></li>
+                <li><a href="https://github.com/nadineorriss" target="_blank">Profile</a></li>
+                <li><a href="../resume/index.html">Resume</a></li>
+            </ul>
+        </nav>
+
+        <h1>Contact</h1>
         
-        <label for="subject">Subject:</label>
-        <input name="subject" id="subject" required>
-        
-        <label for="body">Message:</label>
-        <textarea name="body" id="body" required></textarea>
-        
-        <button>Submit</button>
-    </form>
-</body>
+        <form action="mailto:nadineorriss@ucsd.edu" method="POST" enctype="text/plain">
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" required>
+            </div>
+            
+            <div>
+                <label for="subject">Subject:</label>
+                <input name="subject" id="subject" required>
+            </div>
+            
+            <div>
+                <label for="body">Message:</label>
+                <textarea name="body" id="body" required></textarea>
+            </div>
+            
+            <button>Submit</button>
+        </form>
+    </body>
 </html>
