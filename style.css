@@ -52,3 +52,14 @@ nav a:hover {
   border-radius: 5px;
   border: 1px solid #ccc;
 }
+[data-theme="light"] {
+  color-scheme: light;
+  background: white;
+  color: black;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  background: black;
+  color: white;
+}
