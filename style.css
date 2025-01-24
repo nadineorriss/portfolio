@@ -1,3 +1,54 @@
-body {
-    font: 100%/1.5 system-ui;
+:root {
+  color-scheme: light dark;
+  --border-color: oklch(80% 3% 200);
+  --border-color-dark: oklch(50% 10% 200 / 40%);
+  --color-accent: #FF69B4;
+  --hover-background-light: #f2e2f2;
+  --hover-background-dark: #b482b4;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+      --border-color: var(--border-color-dark);
+      --hover-background: var(--hover-background-dark);
   }
+}
+
+nav {
+  border-bottom: 1px solid var(--border-color);
+}
+
+nav a {
+  flex: 1;
+  text-decoration: none;
+  color: inherit;
+  text-align: center;
+  padding: 0.5em;
+  transition: all 0.3s ease;
+  background-color: transparent;
+}
+
+nav a:hover {
+  background-color: var(--hover-background-light);
+}
+
+@media (prefers-color-scheme: dark) {
+  nav a:hover {
+      background-color: var(--hover-background-dark);
+  }
+}
+.color-scheme {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.color-scheme select {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
