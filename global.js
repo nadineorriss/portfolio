@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
       label.style.color = '#000000';
     }
 
-    // Pretty styling maintained in both modes
     select.style.backgroundColor = '#FFE6F3';
     select.style.border = '2px solid #FF69B4';
     select.style.borderRadius = '20px';
@@ -54,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeSwitcherHTML = `
     <label class="color-scheme" style="font-family: Arial, sans-serif;">
       <select id="theme-selector">
-        <option value="auto">Automatic</option>
+        <option value="light">Automatic</option>
         <option value="light">Light</option>
         <option value="dark">Dark</option>
       </select>
@@ -70,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const savedScheme = localStorage.getItem('colorScheme') || 'light';
   setColorScheme(savedScheme);
 
-  // Add hover effect
   const styleSheet = document.createElement('style');
   styleSheet.textContent = `
     #theme-selector:hover {
