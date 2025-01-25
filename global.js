@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeSwitcherHTML = `
     <label class="color-scheme" style="font-family: Arial, sans-serif;">
       <select id="theme-selector">
-        <option value="light">Automatic</option>
+        <option value="auto">Automatic</option>
         <option value="light">Light</option>
         <option value="dark">Dark</option>
       </select>
