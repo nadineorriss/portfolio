@@ -11,14 +11,10 @@ export async function fetchJSON(url) {
   
   let fullURL;
   if (isProjectsPage) {
-    // When in projects page, we need to go up one level
-    fullURL = isDevelopment 
-      ? `../${url}`  // Local development
-      : `${baseURL}/${url}`; // GitHub Pages
+    // When in projects page, construct the path correctly for both environments
+    fullURL = `${baseURL}/${url}`; // This will work for both local and GitHub Pages
   } else {
-    fullURL = isDevelopment 
-      ? url  // Local development
-      : `${baseURL}/${url}`; // GitHub Pages
+    fullURL = isDevelopment ? url : `${baseURL}/${url}`; 
   }
   
   console.log('Current Path:', currentPath);
