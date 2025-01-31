@@ -28,16 +28,12 @@ export async function fetchJSON(url) {
 }
 
 export function renderProjects(project, containerElement, headingLevel = 'h2') {
-  const baseURL = getBaseURL();
   if (!containerElement) return;
   
   const article = document.createElement('article');
   
   article.innerHTML = `
     <${headingLevel}>${project.title}</${headingLevel}>
-    ${project.image && project.image !== 'https://vis-society.github.io/labs/2/images/empty.svg' 
-      ? `<img src="${baseURL + project.image}" alt="${project.title}" />` 
-      : ''}
     <p>${project.description}</p>
   `;
   
