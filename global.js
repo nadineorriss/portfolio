@@ -1,6 +1,6 @@
 function getBaseURL() {
   const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-  return isDevelopment ? '' : '/portfolio/';
+  return isDevelopment ? '' : window.location.pathname.split('/')[1] === 'portfolio' ? '/portfolio/' : '/';
 }
 
 export async function fetchJSON(url) {
