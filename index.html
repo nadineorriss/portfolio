@@ -1,88 +1,119 @@
 <!DOCTYPE html>
-<html class="home"></html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>NADINE_ORRISS: Personal site and portfolio</title>
-        <link rel="stylesheet" href="style.css">
-        <style>
-            :root {
-                --color-accent: oklch(65% 50% 0);
-            }
-
-            html {
-                accent-color: var(--color-accent);
-            }
-
-            body {
-                max-width: 100ch;
-                margin-inline: max(1em, (100% - 100ch) / 2);
-                padding: 0 1em;
-                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            }
-
-            img {
-                max-width: 50%;
-                height: auto;
-                display: block;
-            }
-
-            figcaption {
-                max-width: 50%;
-            }
-
-            nav ul, nav li {
-                display: contents;
-            }
-
-            nav {
-                display: flex;
-                margin-bottom: 1.5em;
-                border-bottom: 1px solid var(--color-accent);
-                width: 100%;
-            }
-
-            nav a {
-                flex: 1;
-                text-decoration: none;
-                color: inherit;
-                text-align: center;
-                padding: 0.5em;
-                transition: all 0.3s ease;
-            }
-
-            nav a:hover {
-                border-bottom: 0.4em solid var(--color-accent);
-                background-color: oklch(from var(--color-accent) 95% 5% h);
-            }
-
-            nav a.current {
-                border-bottom: 0.4em solid var(--color-accent);
-                padding-bottom: 0.1em;
-                font-weight: bold;
-            }
-
-            h1, p, figure {
-                margin-left: 0;
-                padding-left: 0;
-            }
-            h1 {
-                font-size: 400%;
-            }
-            figure {
-                margin: 0;
-            }
-        </style>
-    </head>
-    <body>
-        
-        <h1>Nadine Orriss</h1>
-        <p>Your average Lululemon-wearing, Starbucks-loving, basic white girl.</p>
-
-        <figure>
-            <img src="images/image.jpeg" alt="My boyfriend and I at the Marine Corps Ball in Vegas last year. I didn't blow my life savings on gambling or get blackout drunk, so sadly, there was nothing that happened in Vegas that needed to stay there.">
-            <figcaption>My boyfriend and I at the Marine Corps Ball in Vegas last year. I didn't blow my life savings on gambling or get blackout drunk, so sadly, there was nothing that happened in Vegas that needed to stay there.</figcaption>
-        </figure>
-        <script src="global.js" type="module"></script>
-    </body>
+<html class="home">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>NADINE_ORRISS: Personal site and portfolio</title>
+   <link rel="stylesheet" href="style.css">
+   <style>
+       :root {
+           --color-accent: #FF69B4;
+       }
+       
+       body {
+           max-width: 100ch;
+           margin-inline: max(1em, (100% - 100ch) / 2);
+           padding: 0 1em;
+           font-family: Arial, sans-serif;
+           background-color: #FFF0F5;
+           color: #FF1493;
+       }
+       
+       h1 {
+           font-size: 400%;
+           color: #FF1493;
+           text-align: center;
+           text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
+       }
+       
+       p {
+           color: #FF69B4;
+           text-align: center;
+           font-size: 1.2em;
+       }
+       
+       img {
+   max-width: 50%;
+   height: auto;
+   display: block;
+   border-radius: 15px;
+   border: 3px solid #FFB6C1;
+   box-shadow: 0 4px 8px rgba(255, 105, 180, 0.2);
+   margin: 0 auto;
+}
+       
+       figcaption {
+           max-width: 50%;
+           color: #FF69B4;
+           font-style: italic;
+           margin-top: 10px;
+       }
+       
+       nav {
+           display: flex;
+           margin-bottom: 1.5em;
+           border-bottom: 2px solid #FFB6C1;
+           width: 100%;
+           background-color: #FFF0F5;
+       }
+       
+       nav a {
+           flex: 1;
+           text-decoration: none;
+           color: #FF69B4;
+           text-align: center;
+           padding: 0.5em;
+           transition: all 0.3s ease;
+       }
+       
+       nav a:hover {
+           border-bottom: 0.4em solid #FF69B4;
+           background-color: #FFE6F3;
+       }
+       
+       nav a.current {
+           border-bottom: 0.4em solid #FF69B4;
+           padding-bottom: 0.1em;
+           font-weight: bold;
+       }
+       
+       .projects {
+           display: grid;
+           grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+           gap: 2em;
+           padding: 1em 0;
+       }
+       
+       h2 {
+           color: #FF1493;
+           text-align: center;
+           margin-top: 30px;
+           font-size: 2em;
+           text-shadow: 1px 1px 2px rgba(255, 105, 180, 0.2);
+       }
+       
+       figure {
+   margin: 20px auto;
+   text-align: center;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+   </style>
+</head>
+<body>
+   <h1>✨ Nadine Orriss ✨</h1>
+   <p>💖 Your average Lululemon-wearing, Starbucks-loving, basic white girl 💖</p>
+   <figure>
+       <img src="images/mavels.jpeg" alt="Me and my dumbest good boy, Mavels. No thoughts behind his eyes, just love!">
+       <figcaption>🐾 Me and my dumbest good boy, Mavels. No thoughts behind his eyes, just love! 🐾</figcaption>
+   </figure>
+   <div id="profile-stats"></div>
+   <section>
+       <h2>✨ Latest Projects ✨</h2>
+       <div class="projects"></div>
+   </section>
+   <script src="global.js" type="module"></script>
+   <script src="index.js" type="module"></script>
+</body>
 </html>
