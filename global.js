@@ -12,14 +12,17 @@ export async function fetchJSON(url) {
   const currentPath = window.location.pathname;
   const isProjectsPage = currentPath.includes('/projects/');
   
-  let fullURL = baseURL;
+  let fullURL;
   
-  if (isProjectsPage && url.startsWith('lib/')) {
-    fullURL += '../' + url;
+  if (isProjectsPage) {
+    // For projects page, adjust the path to go up one directory
+    fullURL = baseURL + (baseURL ? '' : '../') + url;
   } else {
-    fullURL += url;
+    fullURL = baseURL + url;
   }
   
+  console.log('Current Path:', currentPath);
+  console.log('Base URL:', baseURL);
   console.log('Attempting to fetch URL:', fullURL);
   
   try {
