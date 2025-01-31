@@ -8,7 +8,6 @@ export async function fetchJSON(url) {
     ? '' 
     : '/portfolio/';
   
-  // Adjust the URL based on the current page's location
   const adjustedURL = window.location.pathname.includes('/projects/') 
     ? '../' + url 
     : url;
@@ -31,12 +30,20 @@ export async function fetchJSON(url) {
 export function renderProjects(project, containerElement, headingLevel = 'h2') {
   const baseURL = getBaseURL();
   if (!containerElement) return;
+  
   const article = document.createElement('article');
+  
+  // Conditionally render the image only if it's not the default empty SVG
+  const imageHTML = project.image && !project.image.includes('empty.svg') 
+    ? `<img src="${baseURL + project.image}" alt="${project.title}" />`
+    : '';
+  
   article.innerHTML = `
-      <${headingLevel}>${project.title}</${headingLevel}>
-      <img src="${baseURL + project.image}" alt="${project.title}" />
-      <p>${project.description}</p>
+    <${headingLevel}>${project.title}</${headingLevel}>
+    ${imageHTML}
+    <p>${project.description}</p>
   `;
+  
   containerElement.appendChild(article);
 }
 
@@ -49,7 +56,7 @@ export async function fetchGitHubData(username) {
     return await response.json();
   } catch (error) {
     console.error('GitHub API fetch error:', error);
-    return null; // Prevent complete failure
+    return null;
   }
 }
 
@@ -57,9 +64,7 @@ console.log('IT\'S ALIVE!');
 
 document.addEventListener('DOMContentLoaded', async () => {
   function getBaseURL() {
-    // Determines if the site is running locally
     const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    // Sets the base URL based on the environment
     return isDevelopment ? '/' : '/portfolio/';
   }
 
@@ -104,7 +109,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   pages.forEach(p => {
     let a = document.createElement('a');
     const baseURL = getBaseURL();
-    // Always use absolute paths adjusted by the base URL
     a.href = p.external || p.url.startsWith('http') ? p.url : `${baseURL}${p.url}`;
     a.textContent = p.title;
     a.target = p.external ? '_blank' : '';
