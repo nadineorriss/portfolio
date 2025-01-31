@@ -8,11 +8,19 @@ export async function fetchJSON(url) {
     ? '' 
     : '/portfolio/';
   
-  const adjustedURL = window.location.pathname.includes('/projects/') 
-    ? '../' + url 
-    : url;
-
-  const fullURL = baseURL + adjustedURL;
+  // Determine the correct path based on the current page's location
+  const currentPath = window.location.pathname;
+  const isProjectsPage = currentPath.includes('/projects/');
+  
+  let fullURL = baseURL;
+  
+  if (isProjectsPage && url.startsWith('lib/')) {
+    fullURL += '../' + url;
+  } else {
+    fullURL += url;
+  }
+  
+  console.log('Attempting to fetch URL:', fullURL);
   
   try {
     const response = await fetch(fullURL);
