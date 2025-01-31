@@ -78,10 +78,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     const label = document.querySelector('.color-scheme');
     const select = document.getElementById('theme-selector');
     
+    // Update colors based on theme and page
+    const isResumePage = window.location.pathname.includes('resume');
+    
     if (scheme === 'dark') {
       label.style.color = '#ffffff';
+      if (!isResumePage) {
+        document.body.style.backgroundColor = '#1a1a1a';
+      }
     } else {
       label.style.color = '#000000';
+      if (!isResumePage) {
+        document.body.style.backgroundColor = '#fff0f5'; // Light pink background
+      }
     }
     
     select.style.backgroundColor = '#FFE6F3';
@@ -102,99 +111,110 @@ document.addEventListener('DOMContentLoaded', async () => {
     { url: 'resume/index.html', title: 'Resume' }
   ];
 
-  // Create header container
-  const header = document.createElement('header');
-  header.style.padding = '1.5rem';
-  header.style.display = 'flex';
-  header.style.flexWrap = 'wrap';
-  header.style.alignItems = 'center';
-  header.style.justifyContent = 'space-between';
-  header.style.gap = '1rem';
-  document.body.prepend(header);
-
-  // Create navigation
-  const nav = document.createElement('nav');
-  nav.style.display = 'flex';
-  nav.style.flexWrap = 'wrap';
-  nav.style.gap = '1.5rem';
-  nav.style.alignItems = 'center';
-  
-  pages.forEach(p => {
-    let a = document.createElement('a');
-    const baseURL = getBaseURL();
-    a.href = p.external || p.url.startsWith('http') ? p.url : `${baseURL}${p.url}`;
-    a.textContent = p.title;
-    a.target = p.external ? '_blank' : '';
-    
-    // Add pretty navigation styles
-    a.style.textDecoration = 'none';
-    a.style.color = '#FF69B4';
-    a.style.fontFamily = 'Arial, sans-serif';
-    a.style.fontWeight = 'bold';
-    a.style.padding = '8px 16px';
-    a.style.borderRadius = '20px';
-    a.style.transition = 'all 0.3s ease';
-    a.style.backgroundColor = '#FFE6F3';
-    
-    // Add hover effect
-    a.addEventListener('mouseover', () => {
-      a.style.backgroundColor = '#FF69B4';
-      a.style.color = '#FFFFFF';
-      a.style.boxShadow = '0 4px 8px rgba(255, 105, 180, 0.3)';
-    });
-    
-    a.addEventListener('mouseout', () => {
-      a.style.backgroundColor = '#FFE6F3';
-      a.style.color = '#FF69B4';
-      a.style.boxShadow = 'none';
-    });
-    
-    // Add active state for current page
-    if (window.location.pathname.includes(p.url) && !p.external) {
-      a.style.backgroundColor = '#FF69B4';
-      a.style.color = '#FFFFFF';
+  // Add CSS styles
+  const style = document.createElement('style');
+  style.textContent = `
+    :root {
+      color-scheme: light dark;
+      --border-color: oklch(80% 3% 200);
+      --border-color-dark: oklch(50% 10% 200 / 40%);
+      --color-accent: #FF69B4;
+      --hover-background-light: #f2e2f2;
+      --hover-background-dark: #b482b4;
+      --background-light: #fff0f5;
+      --background-dark: #1a1a1a;
     }
-    
-    nav.appendChild(a);
-  });
 
-  // Create theme switcher container
+    body:not(.resume-page) {
+      margin: 0;
+      min-height: 100vh;
+      background-color: var(--background-light);
+      transition: background-color 0.3s ease;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --border-color: var(--border-color-dark);
+      }
+      body:not(.resume-page) {
+        background-color: var(--background-dark);
+      }
+    }
+
+    nav {
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+    }
+
+    nav a {
+      flex: 1;
+      text-decoration: none;
+      color: inherit;
+      text-align: center;
+      padding: 0.5em;
+      transition: all 0.3s ease;
+      background-color: transparent;
+    }
+
+    nav a:hover {
+      background-color: var(--hover-background-light);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      nav a:hover {
+        background-color: var(--hover-background-dark);
+      }
+    }
+
+    .color-scheme {
+      margin-left: auto;
+      margin-right: 20px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .color-scheme {
+        margin: 10px auto;
+        text-align: center;
+        display: block;
+      }
+
+      nav {
+        margin-top: 10px;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Create theme switcher first
   const themeSwitcherHTML = `
-    <label class="color-scheme" style="font-family: Arial, sans-serif; margin-left: auto;">
-      <select id='theme-selector' style="min-width: 100px;">
+    <label class="color-scheme" style="font-family: Arial, sans-serif;">
+      <select id='theme-selector'>
         <option value='auto'>Automatic</option>
         <option value='light'>Light</option>
         <option value='dark'>Dark</option>
       </select>
     </label>
   `;
+  document.body.insertAdjacentHTML('afterbegin', themeSwitcherHTML);
 
-  // Add nav and theme switcher to header
-  header.appendChild(nav);
-  header.insertAdjacentHTML('beforeend', themeSwitcherHTML);
+  // Create navigation
+  const nav = document.createElement('nav');
+  pages.forEach(p => {
+    let a = document.createElement('a');
+    const baseURL = getBaseURL();
+    a.href = p.external || p.url.startsWith('http') ? p.url : `${baseURL}${p.url}`;
+    a.textContent = p.title;
+    a.target = p.external ? '_blank' : '';
+    nav.appendChild(a);
+  });
+  document.body.insertBefore(nav, document.body.firstChild.nextSibling);
 
-  // Add responsive styles
-  const style = document.createElement('style');
-  style.textContent = `
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      
-      nav {
-        order: 2;
-        justify-content: center;
-      }
-      
-      .color-scheme {
-        order: 1;
-        text-align: center;
-        margin-bottom: 1rem;
-      }
-    }
-  `;
-  document.head.appendChild(style);
+  // Set initial background color only if not on resume page
+  const isResumePage = window.location.pathname.includes('resume');
+  if (!isResumePage) {
+    document.body.style.backgroundColor = '#fff0f5'; // Light pink background
+  }
 
   const selector = document.getElementById('theme-selector');
   selector.addEventListener('change', () => setColorScheme(selector.value));
