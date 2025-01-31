@@ -54,11 +54,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   const pages = [
-      { url: 'index.html', title: 'Home' },
-      { url: 'contact/index.html', title: 'Contact' },
-      { url: 'projects/index.html', title: 'Projects' },
+      { url: '/portfolio/index.html', title: 'Home' },
+      { url: '/portfolio/contact/index.html', title: 'Contact' },
+      { url: '/portfolio/projects/index.html', title: 'Projects' },
       { url: 'https://github.com/nadineorriss', title: 'Profile', external: true },
-      { url: 'resume/index.html', title: 'Resume' }
+      { url: '/portfolio/resume/index.html', title: 'Resume' }
   ];
 
   let nav = document.createElement('nav');
