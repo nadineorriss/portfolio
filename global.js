@@ -1,5 +1,11 @@
-// Export functions first
+function getBaseURL() {
+  const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  return isDevelopment ? '' : '/portfolio/';
+}
+
 export async function fetchJSON(url) {
+  const baseURL = getBaseURL();
+  url = baseURL + url; // Prepend the base URL to the fetch path
   try {
       const response = await fetch(url);
       if (!response.ok) throw new Error(`Failed to fetch projects: ${response.statusText}`);
@@ -10,15 +16,17 @@ export async function fetchJSON(url) {
 }
 
 export function renderProjects(project, containerElement, headingLevel = 'h2') {
+  const baseURL = getBaseURL();
   if (!containerElement) return;
   const article = document.createElement('article');
   article.innerHTML = `
       <${headingLevel}>${project.title}</${headingLevel}>
-      <img src="${project.image}" alt="${project.title}" />
+      <img src="${baseURL + project.image}" alt="${project.title}" />
       <p>${project.description}</p>
   `;
   containerElement.appendChild(article);
 }
+
 export async function fetchGitHubData(username) {
   return fetchJSON(`https://api.github.com/users/${username}`);
 }
@@ -54,11 +62,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   const pages = [
-      { url: '/portfolio/index.html', title: 'Home' },
-      { url: '/portfolio/contact/index.html', title: 'Contact' },
-      { url: '/portfolio/projects/index.html', title: 'Projects' },
+      { url: 'index.html', title: 'Home' },
+      { url: 'contact/index.html', title: 'Contact' },
+      { url: 'projects/index.html', title: 'Projects' },
       { url: 'https://github.com/nadineorriss', title: 'Profile', external: true },
-      { url: '/portfolio/resume/index.html', title: 'Resume' }
+      { url: 'resume/index.html', title: 'Resume' }
   ];
 
   let nav = document.createElement('nav');
@@ -67,7 +75,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   pages.forEach(p => {
       let url = p.url;
       let a = document.createElement('a');
-      a.href = p.external || url.startsWith('http') ? p.url : `../${p.url}`;
+      const baseURL = getBaseURL();
+      a.href = p.external || url.startsWith('http') ? p.url : `${baseURL}${p.url}`;
       a.textContent = p.title;
       a.target = p.external ? '_blank' : '';
       const currentUrl = new URL(a.href, window.location.href).pathname;
