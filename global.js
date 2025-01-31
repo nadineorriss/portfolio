@@ -4,19 +4,21 @@ function getBaseURL() {
 }
 
 export async function fetchJSON(url) {
-  const baseURL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-    ? '' 
-    : '/portfolio/';
-  
+  const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const baseURL = isDevelopment ? '' : '/portfolio';
   const currentPath = window.location.pathname;
   const isProjectsPage = currentPath.includes('/projects/');
   
   let fullURL;
-  
   if (isProjectsPage) {
-    fullURL = baseURL + 'lib/projects.json';
+    // When in projects page, we need to go up one level
+    fullURL = isDevelopment 
+      ? `../${url}`  // Local development
+      : `${baseURL}/${url}`; // GitHub Pages
   } else {
-    fullURL = baseURL + url;
+    fullURL = isDevelopment 
+      ? url  // Local development
+      : `${baseURL}/${url}`; // GitHub Pages
   }
   
   console.log('Current Path:', currentPath);
@@ -26,7 +28,6 @@ export async function fetchJSON(url) {
   try {
     const response = await fetch(fullURL);
     if (!response.ok) {
-      console.error(`Failed to fetch ${fullURL}: ${response.statusText}`);
       throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
     }
     return await response.json();
