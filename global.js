@@ -8,15 +8,13 @@ export async function fetchJSON(url) {
     ? '' 
     : '/portfolio/';
   
-  // Determine the correct path based on the current page's location
   const currentPath = window.location.pathname;
   const isProjectsPage = currentPath.includes('/projects/');
   
   let fullURL;
   
   if (isProjectsPage) {
-    // For projects page, adjust the path to go up one directory
-    fullURL = baseURL + (baseURL ? '' : '../') + url;
+    fullURL = baseURL + 'lib/projects.json';
   } else {
     fullURL = baseURL + url;
   }
