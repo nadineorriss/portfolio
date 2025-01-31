@@ -4,18 +4,27 @@ function getBaseURL() {
 }
 
 export async function fetchJSON(url) {
-  const baseURL = getBaseURL();
-  const fullURL = baseURL + url;
+  const baseURL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+    ? '' 
+    : '/portfolio/';
+  
+  // Adjust the URL based on the current page's location
+  const adjustedURL = window.location.pathname.includes('/projects/') 
+    ? '../' + url 
+    : url;
+
+  const fullURL = baseURL + adjustedURL;
   
   try {
     const response = await fetch(fullURL);
     if (!response.ok) {
+      console.error(`Failed to fetch ${fullURL}: ${response.statusText}`);
       throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
     }
     return await response.json();
   } catch (error) {
     console.error('Error fetching or parsing JSON data:', error);
-    return null; // Prevent complete failure
+    return null;
   }
 }
 
