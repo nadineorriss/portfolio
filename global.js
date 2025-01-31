@@ -60,39 +60,38 @@ export async function fetchGitHubData(username) {
 
 console.log('IT\'S ALIVE!');
 
+// Create and append to document body when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
   function getBaseURL() {
     const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     return isDevelopment ? '/' : '/portfolio/';
   }
 
-  function setColorScheme(scheme) {
-    const actualScheme = scheme === 'auto'
-      ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-      : scheme;
-    document.documentElement.style.colorScheme = actualScheme;
-    const selector = document.getElementById('theme-selector');
-    selector.value = scheme;
-    localStorage.setItem('colorScheme', scheme);
-    const label = document.querySelector('.color-scheme');
-    const select = document.getElementById('theme-selector');
-    
-    if (scheme === 'dark') {
-      label.style.color = '#ffffff';
-    } else {
-      label.style.color = '#000000';
-    }
-    
-    select.style.backgroundColor = '#FFE6F3';
-    select.style.border = '2px solid #FF69B4';
-    select.style.borderRadius = '20px';
-    select.style.padding = '8px 15px';
-    select.style.color = '#FF69B4';  // Changed to match resume pink
-    select.style.fontFamily = 'Arial, sans-serif';
-    select.style.cursor = 'pointer';
-    select.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+  // Clear existing header if any
+  const existingHeader = document.querySelector('header');
+  if (existingHeader) {
+    existingHeader.remove();
   }
 
+  // Create header container
+  const header = document.createElement('header');
+  header.style.padding = '1rem';
+  header.style.display = 'flex';
+  header.style.flexDirection = 'column';
+  header.style.alignItems = 'center';
+  header.style.gap = '1rem';
+  
+  // Create and setup navigation
+  const nav = document.createElement('nav');
+  nav.style.display = 'flex';
+  nav.style.flexWrap = 'wrap';
+  nav.style.gap = '1rem';
+  nav.style.justifyContent = 'center';
+  nav.style.alignItems = 'center';
+  nav.style.width = '100%';
+  nav.style.marginBottom = '0.5rem';
+
+  // Define pages
   const pages = [
     { url: 'index.html', title: 'Home' },
     { url: 'contact/index.html', title: 'Contact' },
@@ -100,71 +99,75 @@ document.addEventListener('DOMContentLoaded', async () => {
     { url: 'https://github.com/nadineorriss', title: 'Profile', external: true },
     { url: 'resume/index.html', title: 'Resume' }
   ];
-
-  // Create header container
-  const header = document.createElement('header');
-  header.style.padding = '1rem';
-  header.style.display = 'flex';
-  header.style.flexWrap = 'wrap';
-  header.style.alignItems = 'center';
-  header.style.justifyContent = 'space-between';
-  header.style.gap = '1rem';
-  document.body.prepend(header);
-
-  // Create navigation
-  const nav = document.createElement('nav');
-  nav.style.display = 'flex';
-  nav.style.flexWrap = 'wrap';
-  nav.style.gap = '1rem';
-  nav.style.alignItems = 'center';
   
+  // Create navigation links
   pages.forEach(p => {
-    let a = document.createElement('a');
+    const a = document.createElement('a');
     const baseURL = getBaseURL();
     a.href = p.external || p.url.startsWith('http') ? p.url : `${baseURL}${p.url}`;
     a.textContent = p.title;
     a.target = p.external ? '_blank' : '';
-    a.style.color = '#FF69B4';  // Added to match resume pink
-    a.style.textDecoration = 'none';  // Added to match resume style
+    a.style.color = '#FF69B4';
+    a.style.textDecoration = 'none';
     nav.appendChild(a);
   });
 
-  // Create theme switcher container
-  const themeSwitcherHTML = `
-    <label class="color-scheme" style="font-family: Arial, sans-serif; margin-left: auto;">
-      <select id='theme-selector' style="min-width: 100px;">
-        <option value='auto'>Automatic</option>
-        <option value='light'>Light</option>
-        <option value='dark'>Dark</option>
-      </select>
-    </label>
-  `;
-
-  // Add nav and theme switcher to header
+  // Add navigation to header
   header.appendChild(nav);
-  header.insertAdjacentHTML('beforeend', themeSwitcherHTML);
+
+  // Create theme selector container
+  const themeContainer = document.createElement('div');
+  themeContainer.style.width = '100%';
+  themeContainer.style.display = 'flex';
+  themeContainer.style.justifyContent = 'center';
+  themeContainer.style.marginTop = '0.5rem';
+
+  // Create theme selector
+  const themeLabel = document.createElement('label');
+  themeLabel.className = 'color-scheme';
+  themeLabel.style.fontFamily = 'Arial, sans-serif';
+
+  const themeSelect = document.createElement('select');
+  themeSelect.id = 'theme-selector';
+  themeSelect.style.minWidth = '100px';
+  themeSelect.style.backgroundColor = '#FFE6F3';
+  themeSelect.style.border = '2px solid #FF69B4';
+  themeSelect.style.borderRadius = '20px';
+  themeSelect.style.padding = '8px 15px';
+  themeSelect.style.color = '#FF69B4';
+  themeSelect.style.fontFamily = 'Arial, sans-serif';
+  themeSelect.style.cursor = 'pointer';
+  themeSelect.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+
+  // Add theme options
+  ['auto', 'light', 'dark'].forEach(option => {
+    const opt = document.createElement('option');
+    opt.value = option;
+    opt.textContent = option.charAt(0).toUpperCase() + option.slice(1);
+    themeSelect.appendChild(opt);
+  });
+
+  // Add theme selector to label and container
+  themeLabel.appendChild(themeSelect);
+  themeContainer.appendChild(themeLabel);
+  header.appendChild(themeContainer);
+
+  // Add header to document
+  document.body.prepend(header);
 
   // Add responsive styles
   const style = document.createElement('style');
   style.textContent = `
     @media (max-width: 768px) {
       header {
-        flex-direction: column;
-        align-items: stretch;
+        padding: 0.5rem;
       }
       
       nav {
-        order: 2;
-        justify-content: center;
-      }
-      
-      .color-scheme {
-        order: 1;
-        text-align: center;
+        padding: 0.5rem;
       }
     }
 
-    /* Add styles for consistent pink colors */
     a {
       color: #FF69B4 !important;
     }
@@ -175,8 +178,23 @@ document.addEventListener('DOMContentLoaded', async () => {
   `;
   document.head.appendChild(style);
 
-  const selector = document.getElementById('theme-selector');
-  selector.addEventListener('change', () => setColorScheme(selector.value));
+  // Theme switcher functionality
+  function setColorScheme(scheme) {
+    const actualScheme = scheme === 'auto'
+      ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+      : scheme;
+    
+    document.documentElement.style.colorScheme = actualScheme;
+    themeSelect.value = scheme;
+    localStorage.setItem('colorScheme', scheme);
+    
+    themeLabel.style.color = actualScheme === 'dark' ? '#ffffff' : '#000000';
+  }
+
+  // Set up theme selector event listener
+  themeSelect.addEventListener('change', (e) => setColorScheme(e.target.value));
+  
+  // Set initial theme
   const savedScheme = localStorage.getItem('colorScheme') || 'auto';
   setColorScheme(savedScheme);
 });
