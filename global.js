@@ -1,17 +1,21 @@
 function getBaseURL() {
   const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-  return isDevelopment ? '' : window.location.pathname.split('/')[1] === 'portfolio' ? '/portfolio/' : '/';
+  return isDevelopment ? '' : '/portfolio/';
 }
 
 export async function fetchJSON(url) {
   const baseURL = getBaseURL();
-  url = baseURL + url; // Prepend the base URL to the fetch path
+  const fullURL = baseURL + url;
+  
   try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error(`Failed to fetch projects: ${response.statusText}`);
-      return await response.json();
+    const response = await fetch(fullURL);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
+    }
+    return await response.json();
   } catch (error) {
-      console.error('Error fetching or parsing JSON data:', error);
+    console.error('Error fetching or parsing JSON data:', error);
+    return null; // Prevent complete failure
   }
 }
 
@@ -28,7 +32,16 @@ export function renderProjects(project, containerElement, headingLevel = 'h2') {
 }
 
 export async function fetchGitHubData(username) {
-  return fetchJSON(`https://api.github.com/users/${username}`);
+  try {
+    const response = await fetch(`https://api.github.com/users/${username}`);
+    if (!response.ok) {
+      throw new Error(`GitHub API returned ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('GitHub API fetch error:', error);
+    return null; // Prevent complete failure
+  }
 }
 
 console.log('IT\'S ALIVE!');
