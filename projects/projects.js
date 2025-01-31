@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (projects && projects.length > 0) {
             projectsTitle.textContent = `Projects (${projects.length})`;
-            projectsContainer.innerHTML = ''; // Clear once
+            projectsContainer.innerHTML = '';
             projects.forEach(project => {
                 renderProjects(project, projectsContainer, 'h2');
             });
