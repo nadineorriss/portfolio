@@ -102,8 +102,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     { url: 'resume/index.html', title: 'Resume' }
   ];
 
-  let nav = document.createElement('nav');
-  document.body.prepend(nav);
+  // Create header container
+  const header = document.createElement('header');
+  header.style.padding = '1.5rem';
+  header.style.display = 'flex';
+  header.style.flexWrap = 'wrap';
+  header.style.alignItems = 'center';
+  header.style.justifyContent = 'space-between';
+  header.style.gap = '1rem';
+  document.body.prepend(header);
+
+  // Create navigation
+  const nav = document.createElement('nav');
+  nav.style.display = 'flex';
+  nav.style.flexWrap = 'wrap';
+  nav.style.gap = '1.5rem';
+  nav.style.alignItems = 'center';
   
   pages.forEach(p => {
     let a = document.createElement('a');
@@ -111,23 +125,79 @@ document.addEventListener('DOMContentLoaded', async () => {
     a.href = p.external || p.url.startsWith('http') ? p.url : `${baseURL}${p.url}`;
     a.textContent = p.title;
     a.target = p.external ? '_blank' : '';
+    
+    // Add pretty navigation styles
+    a.style.textDecoration = 'none';
+    a.style.color = '#FF69B4';
+    a.style.fontFamily = 'Arial, sans-serif';
+    a.style.fontWeight = 'bold';
+    a.style.padding = '8px 16px';
+    a.style.borderRadius = '20px';
+    a.style.transition = 'all 0.3s ease';
+    a.style.backgroundColor = '#FFE6F3';
+    
+    // Add hover effect
+    a.addEventListener('mouseover', () => {
+      a.style.backgroundColor = '#FF69B4';
+      a.style.color = '#FFFFFF';
+      a.style.boxShadow = '0 4px 8px rgba(255, 105, 180, 0.3)';
+    });
+    
+    a.addEventListener('mouseout', () => {
+      a.style.backgroundColor = '#FFE6F3';
+      a.style.color = '#FF69B4';
+      a.style.boxShadow = 'none';
+    });
+    
+    // Add active state for current page
+    if (window.location.pathname.includes(p.url) && !p.external) {
+      a.style.backgroundColor = '#FF69B4';
+      a.style.color = '#FFFFFF';
+    }
+    
     nav.appendChild(a);
   });
 
+  // Create theme switcher container
   const themeSwitcherHTML = `
-    <label class="color-scheme" style="font-family: Arial, sans-serif;">
-      <select id='theme-selector'>
+    <label class="color-scheme" style="font-family: Arial, sans-serif; margin-left: auto;">
+      <select id='theme-selector' style="min-width: 100px;">
         <option value='auto'>Automatic</option>
         <option value='light'>Light</option>
         <option value='dark'>Dark</option>
       </select>
     </label>
   `;
-  
-  document.body.insertAdjacentHTML('afterbegin', themeSwitcherHTML);
+
+  // Add nav and theme switcher to header
+  header.appendChild(nav);
+  header.insertAdjacentHTML('beforeend', themeSwitcherHTML);
+
+  // Add responsive styles
+  const style = document.createElement('style');
+  style.textContent = `
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      nav {
+        order: 2;
+        justify-content: center;
+      }
+      
+      .color-scheme {
+        order: 1;
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
   const selector = document.getElementById('theme-selector');
   selector.addEventListener('change', () => setColorScheme(selector.value));
   const savedScheme = localStorage.getItem('colorScheme') || 'auto';
   setColorScheme(savedScheme);
 });
-
