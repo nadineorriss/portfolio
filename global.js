@@ -33,7 +33,7 @@ export function renderProjects(project, containerElement, headingLevel = 'h2') {
   const article = document.createElement('article');
   
   article.innerHTML = `
-    <${headingLevel}>${project.title}</${headingLevel}>
+    <${headingLevel}>${project.title} (${project.year})</${headingLevel}>
     <p>${project.description}</p>
   `;
   
