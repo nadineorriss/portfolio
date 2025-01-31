@@ -33,14 +33,11 @@ export function renderProjects(project, containerElement, headingLevel = 'h2') {
   
   const article = document.createElement('article');
   
-  // Conditionally render the image only if it's not the default empty SVG
-  const imageHTML = project.image && !project.image.includes('empty.svg') 
-    ? `<img src="${baseURL + project.image}" alt="${project.title}" />`
-    : '';
-  
   article.innerHTML = `
     <${headingLevel}>${project.title}</${headingLevel}>
-    ${imageHTML}
+    ${project.image && project.image !== 'https://vis-society.github.io/labs/2/images/empty.svg' 
+      ? `<img src="${baseURL + project.image}" alt="${project.title}" />` 
+      : ''}
     <p>${project.description}</p>
   `;
   
