@@ -60,7 +60,6 @@ export async function fetchGitHubData(username) {
 
 console.log('IT\'S ALIVE!');
 
-// Create and append to document body when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
   function getBaseURL() {
     const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
@@ -80,6 +79,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   header.style.flexDirection = 'column';
   header.style.alignItems = 'center';
   header.style.gap = '1rem';
+  header.style.position = 'relative'; // Add relative positioning
   
   // Create and setup navigation
   const nav = document.createElement('nav');
@@ -89,7 +89,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   nav.style.justifyContent = 'center';
   nav.style.alignItems = 'center';
   nav.style.width = '100%';
-  nav.style.marginBottom = '0.5rem';
+  nav.style.marginBottom = '1rem';
+  nav.style.position = 'relative'; // Ensure nav is positioned
+  nav.style.zIndex = '1'; // Give nav a higher z-index
 
   // Define pages
   const pages = [
@@ -109,10 +111,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     a.target = p.external ? '_blank' : '';
     a.style.color = '#FF69B4';
     a.style.textDecoration = 'none';
+    a.style.padding = '0.5rem'; // Add padding to make links more clickable
     nav.appendChild(a);
   });
 
-  // Add navigation to header
+  // Add navigation to header first
   header.appendChild(nav);
 
   // Create theme selector container
@@ -120,7 +123,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   themeContainer.style.width = '100%';
   themeContainer.style.display = 'flex';
   themeContainer.style.justifyContent = 'center';
-  themeContainer.style.marginTop = '0.5rem';
+  themeContainer.style.paddingTop = '1rem'; // Add padding to separate from nav
+  themeContainer.style.borderTop = '1px solid #eee'; // Add subtle separator
+  themeContainer.style.position = 'relative'; // Ensure proper stacking
+  themeContainer.style.zIndex = '0'; // Lower z-index than nav
 
   // Create theme selector
   const themeLabel = document.createElement('label');
@@ -155,7 +161,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Add header to document
   document.body.prepend(header);
 
-  // Add responsive styles
+  // Add responsive styles with improved mobile support
   const style = document.createElement('style');
   style.textContent = `
     @media (max-width: 768px) {
@@ -164,7 +170,32 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
       
       nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
         padding: 0.5rem;
+        margin-bottom: 1rem;
+        width: 100%;
+      }
+      
+      nav a {
+        display: inline-block;
+        padding: 0.5rem;
+        min-width: 60px;
+        text-align: center;
+      }
+      
+      .color-scheme {
+        display: block;
+        margin-top: 0.5rem;
+        width: 100%;
+        text-align: center;
+      }
+      
+      #theme-selector {
+        width: auto;
+        min-width: 120px;
       }
     }
 
