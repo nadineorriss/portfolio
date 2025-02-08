@@ -1,14 +1,12 @@
 import { fetchJSON, renderProjects } from '../global.js';
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
 
-let currentSearchQuery = '';  // Store the active search query
-let selectedYear = null;       // Track the selected year (instead of index)
+let currentSearchQuery = '';
+let selectedYear = null;
 
-// Function to render pie chart
 function renderPieChart(allProjects) {
   let arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
   
-  // Process project data for the pie chart
   let rolledData = d3.rollups(
     allProjects,
     v => v.length,
@@ -19,19 +17,15 @@ function renderPieChart(allProjects) {
     return { value: count, label: year };
   });
 
-  // Create a pink-themed color scale
   let pinkColors = ['#FF69B4', '#FFB6C1', '#FF1493', '#FFC0CB', '#DB7093', '#FF82AB'];
   let colors = d3.scaleOrdinal(pinkColors);
 
-  // Configure pie generator
   let sliceGenerator = d3.pie().value(d => d.value);
   let arcData = sliceGenerator(data);
 
-  // Clear any existing paths in the SVG
   let svg = d3.select('#projects-pie-plot');
   svg.selectAll('path').remove();
 
-  // Add the pie slices
   svg.selectAll('path')
     .data(arcData)
     .enter()
@@ -45,9 +39,8 @@ function renderPieChart(allProjects) {
       updateDisplayedProjects(allProjects);
     });
 
-  // Create legend with interactivity
   let legend = d3.select('.legend');
-  legend.selectAll('*').remove(); // Clear existing legend items
+  legend.selectAll('*').remove();
   
   data.forEach((d, idx) => {
     legend.append('li')
@@ -62,7 +55,6 @@ function renderPieChart(allProjects) {
   });
 }
 
-// Function to update displayed projects based on search and pie selection
 function updateDisplayedProjects(allProjects) {
   const projectsContainer = document.querySelector('.projects');
   const projectsTitle = document.querySelector('.projects-title');
@@ -96,7 +88,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       console.log(`Found ${projects.length} projects`);
       updateDisplayedProjects(projects);
 
-      // Search bar event listener
       searchInput.addEventListener('input', (event) => {
         currentSearchQuery = event.target.value.toLowerCase();
         updateDisplayedProjects(projects);
