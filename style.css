@@ -9,8 +9,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-      --border-color: var(--border-color-dark);
-      --hover-background: var(--hover-background-dark);
+    --border-color: var(--border-color-dark);
+    --hover-background: var(--hover-background-dark);
   }
 }
 
@@ -34,9 +34,10 @@ nav a:hover {
 
 @media (prefers-color-scheme: dark) {
   nav a:hover {
-      background-color: var(--hover-background-dark);
+    background-color: var(--hover-background-dark);
   }
 }
+
 .color-scheme {
   position: absolute;
   top: 20px;
@@ -52,6 +53,7 @@ nav a:hover {
   border-radius: 5px;
   border: 1px solid #ccc;
 }
+
 [data-theme="light"] {
   color-scheme: light;
   background: white;
@@ -62,4 +64,101 @@ nav a:hover {
   color-scheme: dark;
   background: black;
   color: white;
+}
+
+/* Chart and Legend Styles */
+.chart-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2em;
+  max-width: 60em;
+  margin: 0 auto;
+}
+
+#projects-pie-plot {
+  max-width: 20em;
+  margin-block: 2em;
+  overflow: visible;
+  display: block;
+  flex-shrink: 0;
+}
+
+.legend {
+  list-style: none;
+  padding: 1em;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5em;
+  margin: 0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.swatch {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background-color: var(--color);
+  border-radius: 3px;
+}
+
+.legend-item em {
+  color: inherit;
+  font-style: italic;
+  margin-left: 0.25em;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .chart-container {
+    flex-direction: column;
+  }
+  
+  .legend {
+    grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
+  }
+}
+.searchBar {
+  display: block;
+  width: 100%;
+  max-width: 40em;
+  margin: 2em auto;
+  padding: 0.8em 1.2em;
+  border: 2px solid var(--color-accent);
+  border-radius: 2em;
+  font-size: 1em;
+  background-color: white;
+  color: inherit;
+}
+
+.searchBar:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.3);
+}
+#projects-pie-plot {
+  path {
+    cursor: pointer;
+    transition: 300ms;
+  }
+
+  &:has(path:hover) {
+    path:not(:hover) {
+      opacity: 0.5;
+    }
+  }
+}
+
+.selected {
+  --color: oklch(60% 45% 0) !important;
+}
+
+.selected:is(path) {
+  fill: var(--color);
 }
