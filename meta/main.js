@@ -129,6 +129,7 @@ function createScatterplot() {
         .attr('cx', xScale(d.datetime))
         .attr('cy', yScale(d.hourFrac))
         .attr('r', rScale(d.totalLines))
+        .attr('class', 'dot')
         .style('fill-opacity', 0.6)
         .style('pointer-events', 'all') // Fix: Keeps dots hoverable
         .on('mouseenter', function(event) {
@@ -142,14 +143,6 @@ function createScatterplot() {
           updateTooltipVisibility(false);
           d3.select(this).style('fill-opacity', 0.6);
         });
-
-      // Invisible larger hover area (placed behind)
-      g.insert('circle', ':first-child')
-        .attr('cx', xScale(d.datetime))
-        .attr('cy', yScale(d.hourFrac))
-        .attr('r', Math.max(10, rScale(d.totalLines) * 1.3))
-        .style('fill', 'transparent')
-        .style('pointer-events', 'none'); // Doesn't block interaction
     });
 
   // Create and add axes
@@ -164,6 +157,47 @@ function createScatterplot() {
   svg.append('g')
     .attr('transform', `translate(${usableArea.left}, 0)`)
     .call(yAxis);
+
+  // Initialize the brushing feature
+  brushSelector(svg);
+}
+
+function brushSelector(svg) {
+    // Define the brush
+    const brush = d3.brush()
+      .extent([[0, 0], [width, height]])
+      .on('brush', brushed)
+      .on('end', brushEnded);
+  
+    // Append brush to the SVG
+    svg.append('g')
+      .attr('class', 'brush')
+      .call(brush);
+  
+    // Raise dots and everything after the overlay
+    svg.selectAll('.dots, .overlay ~ *').raise();
+  }
+  
+
+// Brush event handler
+function brushed({ selection }) {
+  if (!selection) return;
+
+  const [[x0, y0], [x1, y1]] = selection;
+
+  d3.selectAll('.dot') // Select all dots
+    .classed('selected', function() {
+      const cx = +d3.select(this).attr('cx');
+      const cy = +d3.select(this).attr('cy');
+      return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
+    });
+}
+
+// Brush end event (optional)
+function brushEnded({ selection }) {
+  if (!selection) {
+    d3.selectAll('.dot').classed('selected', false);
+  }
 }
 
 function displayStats() {
@@ -181,22 +215,12 @@ function displayStats() {
     { label: 'Commits', value: commits.length },
     { label: 'Files', value: d3.group(data, d => d.file).size },
     { label: 'Total LOC', value: data.length },
-    { label: 'Max Depth', value: d3.max(data, d => d.depth) },
-    { label: 'Longest Line', value: d3.max(data, d => d.length) },
-    { label: 'Max Lines', value: d3.max(commits, d => d.totalLines) }
   ];
 
   stats.forEach(stat => {
-    const item = grid.append('div')
-      .attr('class', 'stat-item');
-    
-    item.append('div')
-      .attr('class', 'stat-value')
-      .text(stat.value);
-    
-    item.append('div')
-      .attr('class', 'stat-label')
-      .text(stat.label);
+    const item = grid.append('div').attr('class', 'stat-item');
+    item.append('div').attr('class', 'stat-value').text(stat.value);
+    item.append('div').attr('class', 'stat-label').text(stat.label);
   });
 }
 
@@ -204,12 +228,9 @@ async function loadData() {
   data = await d3.csv('loc.csv', (row) => ({
     ...row,
     line: Number(row.line),
-    depth: Number(row.depth),
-    length: Number(row.length),
-    date: new Date(row.date + 'T00:00' + row.timezone),
     datetime: new Date(row.datetime),
   }));
-  
+
   displayStats();
   createScatterplot();
 }
@@ -217,4 +238,5 @@ async function loadData() {
 document.addEventListener('DOMContentLoaded', async () => {
   await loadData();
 });
+
 
