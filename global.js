@@ -98,9 +98,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     { url: 'index.html', title: 'Home' },
     { url: 'contact/index.html', title: 'Contact' },
     { url: 'projects/index.html', title: 'Projects' },
-    { url: 'https://github.com/nadineorriss', title: 'Profile', external: true },
-    { url: 'resume/index.html', title: 'Resume' }
-  ];
+    { url: 'https://github.com/nadineorriss', title: 'GitHub', external: true },
+    { url: 'resume/index.html', title: 'Resume' },
+    { url: 'meta/index.html', title: 'Meta' }  // Add this line
+];
   
   // Create navigation links
   pages.forEach(p => {
