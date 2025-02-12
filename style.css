@@ -162,3 +162,78 @@ nav a:hover {
 .selected:is(path) {
   fill: var(--color);
 }
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 2rem;
+  margin: 3rem 0;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(255, 105, 180, 0.1);
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #FF1493;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.stat-label {
+  text-transform: uppercase;
+  color: #FF69B4;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  margin-top: 0.5rem;
+  opacity: 0.9;
+}
+
+.summary-title {
+  font-size: 1.5rem;
+  color: #FF1493;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 1200px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.gridlines line {
+  stroke: rgba(255, 105, 180, 0.1);
+  stroke-width: 1;
+}
+
+.gridlines path {
+  stroke: none;
+}
+
+.dots circle {
+  fill: #FF69B4;
+  opacity: 0.7;
+}
+
+#chart {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 2rem 0;
+  box-shadow: 0 2px 8px rgba(255, 105, 180, 0.1);
+}
+
+.axis-label {
+  fill: #FF1493;
+  font-size: 12px;
+}
