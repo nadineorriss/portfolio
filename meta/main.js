@@ -6,6 +6,41 @@ const width = 1000;
 const height = 600;
 const margin = { top: 10, right: 10, bottom: 30, left: 40 };
 
+function updateTooltipContent(commit) {
+  const link = document.getElementById('commit-link');
+  const date = document.getElementById('commit-date');
+  const time = document.getElementById('commit-time');
+  const author = document.getElementById('commit-author');
+  const lines = document.getElementById('commit-lines');
+
+  if (!commit || Object.keys(commit).length === 0) return;
+
+  link.href = commit.url;
+  link.textContent = commit.id;
+  date.textContent = commit.datetime?.toLocaleString('en', {
+    dateStyle: 'full',
+  });
+  time.textContent = commit.time;
+  author.textContent = commit.author;
+  lines.textContent = commit.totalLines;
+}
+
+function updateTooltipVisibility(isVisible) {
+  const tooltip = document.getElementById('commit-tooltip');
+  if (tooltip) {
+    tooltip.hidden = !isVisible;
+  }
+}
+
+function updateTooltipPosition(event) {
+  const tooltip = document.getElementById('commit-tooltip');
+  if (tooltip) {
+    const padding = 10;
+    tooltip.style.left = `${event.clientX + padding}px`;
+    tooltip.style.top = `${event.clientY + padding}px`;
+  }
+}
+
 function processCommits() {
   commits = d3
     .groups(data, (d) => d.commit)
@@ -85,7 +120,17 @@ function createScatterplot() {
     .join('circle')
     .attr('cx', (d) => xScale(d.datetime))
     .attr('cy', (d) => yScale(d.hourFrac))
-    .attr('r', 5);
+    .attr('r', 5)
+    .on('mouseenter', (event, commit) => {
+      console.log("Hover commit:", commit); // Debug log
+      updateTooltipContent(commit);
+      updateTooltipVisibility(true);
+      updateTooltipPosition(event);
+    })
+    .on('mouseleave', () => {
+      updateTooltipContent({});
+      updateTooltipVisibility(false);
+    });
 
   // Create and add axes
   const xAxis = d3.axisBottom(xScale);
