@@ -1,9 +1,8 @@
 let data = [];
 let commits = [];
-let xScale, yScale, rScale; // Global scales
-let brushSelection = null; // Store brush selection
+let xScale, yScale, rScale;
+let brushSelection = null;
 
-// Define dimensions for the chart
 const width = 1000;
 const height = 600;
 const margin = { top: 20, right: 30, bottom: 50, left: 60 };
@@ -55,7 +54,7 @@ function processCommits() {
       datetime,
       hourFrac: datetime.getHours() + datetime.getMinutes() / 60,
       totalLines: lines.length,
-      lines: lines // Preserve lines for language breakdown
+      lines: lines
     };
   });
 }
@@ -133,7 +132,6 @@ function createScatterplot() {
   brushSelector(svg);
 }
 
-// ✅ RESTORED: Brushing Function
 function brushSelector(svg) {
   const brush = d3.brush()
     .extent([
@@ -147,11 +145,9 @@ function brushSelector(svg) {
     .attr("class", "brush")
     .call(brush);
 
-  // ✅ Ensure brush layer is on top
   svg.selectAll(".dots, .overlay ~ *").raise();
 }
 
-// ✅ Brush Event Handlers
 function brushed(event) {
   brushSelection = event.selection;
   updateSelection();
@@ -181,18 +177,59 @@ function updateSelection() {
 }
 
 function updateSelectionCount() {
-  const selectedCommits = brushSelection ? commits.filter(isCommitSelected) : [];
-  document.getElementById('selection-count').textContent = `${selectedCommits.length || 'No'} commits selected`;
+  const selectedCommits = brushSelection
+    ? commits.filter(isCommitSelected)
+    : [];
+
+  document.getElementById('selection-count').textContent =
+    `${selectedCommits.length || 'No'} commits selected`;
+}
+
+function updateLanguageBreakdown() {
+  const selectedCommits = brushSelection
+    ? commits.filter(isCommitSelected)
+    : [];
+
+  const container = document.getElementById('language-breakdown');
+
+  if (selectedCommits.length === 0) {
+    container.innerHTML = '';
+    return;
+  }
+
+  const requiredCommits = selectedCommits.length ? selectedCommits : commits;
+  const lines = requiredCommits.flatMap(d => d.lines);
+
+  const breakdown = d3.rollup(
+    lines,
+    (v) => v.length,
+    (d) => d.type
+  );
+
+  container.innerHTML = '';
+
+  for (const [language, count] of breakdown) {
+    const proportion = count / lines.length;
+    const formatted = d3.format('.1~%')(proportion);
+
+    container.innerHTML += `
+      <dt>${language}</dt>
+      <dd>${count} lines (${formatted})</dd>
+    `;
+  }
+
+  return breakdown;
 }
 
 async function loadData() {
-  data = await d3.csv('loc.csv', row => ({
+  data = await d3.csv('loc.csv', (row) => ({
     ...row,
     file: row.file || "unknown",
     line: Number(row.line),
     depth: Number(row.depth) || 0,
     length: Number(row.length) || 0,
     datetime: new Date(row.datetime),
+    type: row.type || "unknown",
   }));
 
   createScatterplot();
@@ -229,6 +266,3 @@ function displayStats() {
     item.append("div").attr("class", "stat-label").text(stat.label);
   });
 }
-
-
-

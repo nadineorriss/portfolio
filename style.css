@@ -342,7 +342,7 @@ dl.info[hidden]:not(:hover, :focus-within) {
 }
 #language-breakdown {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* ✅ Creates evenly spaced columns */
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 1rem;
   text-align: center;
   padding: 1.5rem;
@@ -354,7 +354,7 @@ dl.info[hidden]:not(:hover, :focus-within) {
 .language-stat {
   display: flex;
   flex-direction: column;
-  align-items: center;  /* ✅ Ensures everything is centered */
+  align-items: center;
 }
 
 #language-breakdown dt {
