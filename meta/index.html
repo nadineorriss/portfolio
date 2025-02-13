@@ -59,28 +59,41 @@ p {
 </style>
 </head>
 <body>
-<h1>Meta</h1>
-<p>This page includes stats about this website</p>
-<div id="stats"></div>
-<h2>Commits by time of day</h2>
-<div id="chart"></div>
-<dl id="commit-tooltip" class="info tooltip" hidden>
-  <dt>Commit</dt>
-  <dd>
-    <a href="" id="commit-link" target="_blank"></a>
-  </dd>
-  <dt>Date</dt>
-  <dd id="commit-date"></dd>
-  <dt>Time</dt>
-  <dd id="commit-time"></dd>
-  <dt>Author</dt>
-  <dd id="commit-author"></dd>
-  <dt>Lines edited</dt>
-  <dd id="commit-lines"></dd>
-</dl>
-
-<script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="../global.js" type="module"></script>
-<script src="main.js" type="module"></script>
-</body>
-</html>
+    <h1>Meta</h1>
+ <!-- SUMMARY STATS (Restored & Styled) -->
+    <div id="stats"></div>
+    
+    <!-- CHART -->
+    <h2>Commits by Time of Day</h2>
+    <div id="chart"></div>
+    
+    <!-- COMMIT SELECTION STATS (Placed Below Chart) -->
+    <div id="commit-stats">
+      <h2 class="summary-title">Commit Statistics</h2>
+      <p id="selection-count">No commits selected</p>
+      <dl id="language-breakdown" class="stats-grid"></dl>
+    </div>
+    
+    <!-- TOOLTIP -->
+    <dl id="commit-tooltip" class="info tooltip" hidden>
+      <dt>Commit</dt>
+      <dd>
+        <a href="" id="commit-link" target="_blank"></a>
+      </dd>
+      <dt>Date</dt>
+      <dd id="commit-date"></dd>
+      <dt>Time</dt>
+      <dd id="commit-time"></dd>
+      <dt>Author</dt>
+      <dd id="commit-author"></dd>
+      <dt>Lines edited</dt>
+      <dd id="commit-lines"></dd>
+    </dl>
+    
+    <!-- SCRIPTS -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="../global.js" type="module"></script>
+    <script src="main.js" type="module"></script>
+    </body>
+    </html>
+    

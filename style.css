@@ -308,13 +308,64 @@ dl.info[hidden]:not(:hover, :focus-within) {
   opacity: 0;
   visibility: hidden;
 }
-circle.selected {
-  fill: #ff6b6b; /* Red */
+#commit-stats {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(255, 105, 180, 0.1);
 }
 
-.selection {
-  fill-opacity: 0.1;
-  stroke: black;
-  stroke-opacity: 0.7;
-  stroke-dasharray: 5 3;
+#selection-count {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #FF1493;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+#language-breakdown {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  text-align: center;
+}
+
+#language-breakdown dt {
+  font-weight: bold;
+  color: #FF1493;
+}
+
+#language-breakdown dd {
+  font-size: 1rem;
+  color: #FF69B4;
+}
+#language-breakdown {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* ✅ Creates evenly spaced columns */
+  gap: 1rem;
+  text-align: center;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(255, 105, 180, 0.1);
+}
+
+.language-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* ✅ Ensures everything is centered */
+}
+
+#language-breakdown dt {
+  font-weight: bold;
+  color: #FF1493;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+#language-breakdown dd {
+  font-size: 1rem;
+  color: #FF69B4;
+  margin: 0;
 }
