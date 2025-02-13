@@ -129,6 +129,60 @@ function createScatterplot() {
     .attr('class', 'y-axis')
     .attr('transform', `translate(${usableArea.left}, 0)`) 
     .call(d3.axisLeft(yScale).tickFormat(d => `${String(d).padStart(2, '0')}:00`));
+
+  brushSelector(svg);
+}
+
+// ✅ RESTORED: Brushing Function
+function brushSelector(svg) {
+  const brush = d3.brush()
+    .extent([
+      [margin.left, margin.top],  
+      [width - margin.right, height - margin.bottom] 
+    ])
+    .on("brush", brushed)
+    .on("end", brushEnded);
+
+  svg.append("g")
+    .attr("class", "brush")
+    .call(brush);
+
+  // ✅ Ensure brush layer is on top
+  svg.selectAll(".dots, .overlay ~ *").raise();
+}
+
+// ✅ Brush Event Handlers
+function brushed(event) {
+  brushSelection = event.selection;
+  updateSelection();
+  updateSelectionCount();
+  updateLanguageBreakdown();
+}
+
+function brushEnded(event) {
+  if (!event.selection) {
+    brushSelection = null;
+    updateSelection();
+    updateSelectionCount();
+    updateLanguageBreakdown();
+  }
+}
+
+function isCommitSelected(commit) {
+  if (!brushSelection) return false;
+  const [[x0, y0], [x1, y1]] = brushSelection;
+  const commitX = xScale(commit.datetime);
+  const commitY = yScale(commit.hourFrac);
+  return x0 <= commitX && commitX <= x1 && y0 <= commitY && commitY <= y1;
+}
+
+function updateSelection() {
+  d3.selectAll('.dot').classed('selected', d => isCommitSelected(d));
+}
+
+function updateSelectionCount() {
+  const selectedCommits = brushSelection ? commits.filter(isCommitSelected) : [];
+  document.getElementById('selection-count').textContent = `${selectedCommits.length || 'No'} commits selected`;
 }
 
 async function loadData() {
@@ -142,7 +196,7 @@ async function loadData() {
   }));
 
   createScatterplot();
-  displayStats(); // ✅ Ensure stats bar is displayed
+  displayStats();
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -175,5 +229,6 @@ function displayStats() {
     item.append("div").attr("class", "stat-label").text(stat.label);
   });
 }
+
 
 
